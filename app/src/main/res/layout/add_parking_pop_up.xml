@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/discription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_discription"
+        android:layout_margin="@dimen/_10sdp"/>
+    <Spinner
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:entries="@array/statues"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/add_parking_slots"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/rounded_button_bg"
+        android:gravity="center"
+        android:text="@string/add_parking_slot"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp" />
+</androidx.appcompat.widget.LinearLayoutCompat>

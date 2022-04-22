@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">ParkingProject</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="do_not_have_account">Don\'t have an account? SignUp</string>
+    <string name="login">Login</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="view_parking">View Parking</string>
+    <string name="add_car_slots">Add Car Slots</string>
+    <string name="title_activity_add_parking_slots">AddParkingSlots</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="add_parking_slot">Add Parking Slot</string>
+    <string name="delete_confirmation">Deleting Parking!</string>
+    <string name="dleteion_dis">Are you sure to delete!</string>
+    <string name="please_wait">Please wait!</string>
+    <string name="admin_id">LyGA4GKZp3ftcaEkVFrws3l8FZT2</string>
+    <string name="enter_discription">Enter Discription</string>
+    <string name="enter_status">Enter Status</string>
+    <string name="add_all_data">Add All Data!</string>
+    <string name="avalibel">Available</string>
+    <string name="total_parkings">"Total Parkings : "</string>
+    <string name="avalibe_parking">"Avalible Parkings : "</string>
+    <string name="already_have_an_account">"Already have a account? Login "</string>
+    <string name="signUp">Sign Up</string>
+    <string name="update_parking">Update Parking</string>
+    <string name="logout">Logout</string>
+    <string name="splash">splash</string>
+    <string name="parking_number">"Parking Number : "</string>
+
+    <string-array name="statues">
+        <item>Select Parking Status</item>
+        <item>Available</item>
+        <item>Occupied</item>
+    </string-array>
+</resources>
