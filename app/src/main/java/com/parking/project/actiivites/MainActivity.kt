@@ -12,7 +12,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -26,12 +25,13 @@ import com.parking.project.models.ParkingModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddParkingSlotsBinding
-    lateinit var myRef : DatabaseReference
+    lateinit var myRef: DatabaseReference
     var list = ArrayList<ParkingModel>()
     val TAG = "***ParkingSLot"
     lateinit var progressDialog: ProgressDialog
-    lateinit var adapter : MyAdapterforParkings
-    var user : FirebaseUser? = null
+    lateinit var adapter: MyAdapterforParkings
+    var user: FirebaseUser? = null
+    var userId: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,31 +43,42 @@ class MainActivity : AppCompatActivity() {
         progressDialog.setMessage(getString(R.string.please_wait))
 
         user = FirebaseAuth.getInstance().currentUser
+        try{
+            userId = user!!.uid
+        }catch (e : Exception){
+            e.printStackTrace()
+            userId = ""
+        }
 
         binding.allParkingList.layoutManager = LinearLayoutManager(this)
-        adapter = MyAdapterforParkings(this,list,user!!)
+        adapter = MyAdapterforParkings(this, list, userId)
         binding.allParkingList.adapter = adapter
 
         myRef = FirebaseDatabase.getInstance().getReference("PARKINGS")
         progressDialog.show()
         getAllData()
 
-        binding.addParkingSlots.setOnClickListener {
+        binding.addParking.setOnClickListener {
             updateParking(null)
         }
 
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+            startActivity(Intent(this@MainActivity, HomeActivity::class.java))
             finish()
         }
 
-        if(!user!!.uid.equals(getString(R.string.admin_id)))
-            binding.addParkingSlots.visibility = View.GONE
+        try{
+            if (!userId.equals(getString(R.string.admin_id))) {
+                binding.addParking.visibility = View.GONE
+                binding.logout.visibility = View.GONE
 
+            }
+        }catch (e : Exception){
+            e.printStackTrace()
+            Log.e("***TAG","Exceptoion a gai ")
+        }
     }
-
-
 
     private fun getAllData() {
         myRef.addValueEventListener(object : ValueEventListener {
@@ -78,16 +89,23 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG, "user data changed " + dataSnapshot.key)
                     list.clear()
                     for (dataSnapshot1 in dataSnapshot.children) {
-                        val parkingModel: ParkingModel? = dataSnapshot1.getValue(ParkingModel::class.java)
+                        val parkingModel: ParkingModel? =
+                            dataSnapshot1.getValue(ParkingModel::class.java)
                         parkingModel!!.id = dataSnapshot1.key
-                        if(parkingModel.parkingStatus.contains(getString(R.string.avalibel),true))
+                        if (parkingModel.parkingStatus.contains(getString(R.string.avalibel), true))
                             avalibelParking += 1
                         list.add(parkingModel)
                     }
                     adapter.notifyDataSetChanged()
                     progressDialog.dismiss()
-                    binding.totalParkings.text = getString(R.string.total_parkings)+ list.size.toString()
-                    binding.avalibleParkings.text = getString(R.string.avalibe_parking)+ avalibelParking.toString()
+                    binding.totalParkings.text =
+                        getString(R.string.total_parkings) + list.size.toString()
+                    if (!userId.equals(getString(R.string.admin_id)))
+                        binding.avalibleParkings.text =
+                            "Welcome User\n" + getString(R.string.avalibe_parking) + avalibelParking.toString()
+                    else
+                        binding.avalibleParkings.text =
+                        "Welcome Admin\n" + getString(R.string.avalibe_parking) + avalibelParking.toString()
                 } catch (c: Exception) {
                     c.printStackTrace()
                     Log.e(TAG, "exception while retriving data from users")
@@ -104,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateParking(parkingModel: ParkingModel?) {
-        if(!user!!.uid.equals(getString(R.string.admin_id))){
+        if (!userId.equals(getString(R.string.admin_id))) {
             return
         }
         val dialog = Dialog(this@MainActivity)
@@ -117,9 +135,9 @@ class MainActivity : AppCompatActivity() {
         val status: Spinner = dialog.findViewById(R.id.status)
         val add_parking_slots: AppCompatTextView = dialog.findViewById(R.id.add_parking_slots)
 
-        if(parkingModel != null){
+        if (parkingModel != null) {
             discription.setText(parkingModel.description)
-            if(parkingModel.parkingStatus.contains(getString(R.string.avalibel),false))
+            if (parkingModel.parkingStatus.contains(getString(R.string.avalibel), false))
                 status.setSelection(1)
             else
                 status.setSelection(2)
@@ -128,16 +146,20 @@ class MainActivity : AppCompatActivity() {
 
 
         add_parking_slots.setOnClickListener {
-            if(discription.text.toString().equals("") || status.selectedItemPosition == 0 ){
-                Toast.makeText(this@MainActivity, getString(R.string.add_all_data), Toast.LENGTH_SHORT).show()
+            if (discription.text.toString().equals("") || status.selectedItemPosition == 0) {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.add_all_data),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
-            if(parkingModel == null){
+            if (parkingModel == null) {
                 val parkingModel = ParkingModel()
                 parkingModel.parkingStatus = status.selectedItem.toString()
                 parkingModel.description = discription.text.toString()
                 addParking(parkingModel)
-            }else{
+            } else {
                 parkingModel.description = discription.text.toString()
                 parkingModel.parkingStatus = status.selectedItem.toString()
                 updateData(parkingModel)
@@ -155,7 +177,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun deleteParking(parkingModel: ParkingModel) {
-        if(!user!!.uid.equals(getString(R.string.admin_id))){
+        if (!userId.equals(getString(R.string.admin_id))) {
             return
         }
         progressDialog.show()
@@ -163,21 +185,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateData(parkingModel: ParkingModel) {
-        if(!user!!.uid.equals(getString(R.string.admin_id))){
+        if (!userId.equals(getString(R.string.admin_id))) {
             return
         }
         progressDialog.show()
-        val update = HashMap<String , Any>()
-        update.put("parkingStatus",parkingModel.parkingStatus)
-        update.put("description",parkingModel.description)
+        val update = HashMap<String, Any>()
+        update.put("parkingStatus", parkingModel.parkingStatus)
+        update.put("description", parkingModel.description)
 
         myRef.child(parkingModel.id!!).updateChildren(update)
     }
+
     fun addParking(parkingModel: ParkingModel) {
-        if(!user!!.uid.equals(getString(R.string.admin_id))){
+        if (!userId.equals(getString(R.string.admin_id))) {
             return
         }
         progressDialog.show()
         myRef.push().setValue(parkingModel)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FirebaseAuth.getInstance().signOut()
     }
 }

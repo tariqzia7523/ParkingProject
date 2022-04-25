@@ -5,8 +5,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.google.firebase.auth.FirebaseUser
 import com.parking.project.R
 import com.parking.project.actiivites.MainActivity
@@ -14,7 +16,7 @@ import com.parking.project.models.ParkingModel
 import kotlin.collections.ArrayList
 
 
-class MyAdapterforParkings(var context: Context, var data: ArrayList<ParkingModel>,var user : FirebaseUser) : RecyclerView.Adapter<MyAdapterforParkings.MyViewHolder>() {
+class MyAdapterforParkings(var context: Context, var data: ArrayList<ParkingModel>,var userId : String?) : RecyclerView.Adapter<MyAdapterforParkings.MyViewHolder>() {
     var TAG = "***Adapter"
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,10 +24,14 @@ class MyAdapterforParkings(var context: Context, var data: ArrayList<ParkingMode
         var key: AppCompatTextView
         var discription: AppCompatTextView
         var status: AppCompatTextView
+        var edit: AppCompatImageView
+        var delete: AppCompatImageView
         init {
             key = view.findViewById(R.id.key_id)
             discription = view.findViewById(R.id.discription)
             status = view.findViewById(R.id.status)
+            edit = view.findViewById(R.id.edit)
+            delete = view.findViewById(R.id.delete)
         }
     }
 
@@ -37,22 +43,29 @@ class MyAdapterforParkings(var context: Context, var data: ArrayList<ParkingMode
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.key.text = context.getString(R.string.parking_number)+position.toString()
+        holder.key.text = context.getString(R.string.parking_number)+(position + 1).toString()
         holder.status.text = data[position].parkingStatus
         holder.discription.text = data[position].description
-
-        holder.itemView.setOnClickListener {
+        if(!userId.equals(context.getString(R.string.admin_id))) {
+            holder.edit.visibility = View.GONE
+            holder.delete.visibility = View.GONE
+        }
+        else {
+            holder.edit.visibility = View.VISIBLE
+            holder.delete.visibility = View.VISIBLE
+        }
+        holder.edit.setOnClickListener {
             (context as MainActivity).updateParking(data[position])
         }
-
-        holder.itemView.setOnLongClickListener {
-            if(!user.uid.equals(context.getString(R.string.admin_id))){
-                true
-            }else{
+        holder.delete.setOnClickListener {
+            try{
                 deleteItem(data[position])
-                true
+            }catch ( e : Exception){
+                e.printStackTrace()
+
             }
         }
+
 
     }
 

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkingProject">
         <activity
+            android:name=".actiivites.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".actiivites.SignUpActiivty"
             android:exported="false" />
         <activity
@@ -17,7 +20,6 @@
             android:exported="false"
             android:label="@string/title_activity_add_parking_slots"
             android:theme="@style/Theme.ParkingProject.NoActionBar" />
-
         <activity
             android:name=".actiivites.SplashActivity"
             android:exported="true">
@@ -30,7 +32,6 @@
         <activity
             android:name=".actiivites.LoginActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

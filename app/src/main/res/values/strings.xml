@@ -32,6 +32,10 @@
     <string name="logout">Logout</string>
     <string name="splash">splash</string>
     <string name="parking_number">"Parking Number : "</string>
+    <string name="admin_login">Admin Login</string>
+    <string name="use_admin_login">Use Admin Credentials for Login</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
     <string-array name="statues">
         <item>Select Parking Status</item>

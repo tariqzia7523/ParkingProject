@@ -30,11 +30,11 @@ class SignUpActiivty : AppCompatActivity() {
         progressDialog= ProgressDialog(this);
         progressDialog!!.setMessage(getString(R.string.please_wait));
 
-        binding.signupCall.text = getString(R.string.already_have_an_account)
-        binding.signupCall.setOnClickListener {
-            startActivity(Intent(this@SignUpActiivty,LoginActivity::class.java))
-            finish()
-        }
+//        binding.signupCall.text = getString(R.string.already_have_an_account)
+//        binding.signupCall.setOnClickListener {
+//            startActivity(Intent(this@SignUpActiivty,LoginActivity::class.java))
+//            finish()
+//        }
 
         binding.signinBtn.text = getString(R.string.signUp)
         binding.signinBtn.setOnClickListener {

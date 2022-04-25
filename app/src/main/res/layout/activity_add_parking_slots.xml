@@ -1,78 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".actiivites.MainActivity">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        app:title="Parking List"
+        app:titleTextColor="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logout"
+            android:layout_width="@dimen/_38sdp"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_logout"
+            app:tint="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp">
+        android:layout_height="@dimen/_45sdp"
+        android:background="@color/purple_200"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/avalible_parkings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/total_parkings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/header_layout"
-        android:layout_above="@+id/logout">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/all_parking_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_above="@+id/add_parking_slots"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/add_parking_slots"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/rounded_button_bg"
-            android:gravity="center"
-            android:text="@string/add_parking_slot"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="textEnd"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12sdp" />
-    </RelativeLayout>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat,RtlHardcoded" />
 
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/all_parking_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/addParking"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_weight="2" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/logout"
+        android:id="@+id/addParking"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_40sdp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/rounded_button_bg"
         android:backgroundTint="@color/red"
         android:gravity="center"
-        android:text="@string/logout"
+        android:text="@string/add_car_slots"
         android:textColor="@color/white"
         android:textSize="@dimen/_12sdp" />
 
-
-</RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,16 +20,17 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun decideFlow() {
-        val currentUser  = FirebaseAuth.getInstance().currentUser
-        if(currentUser == null)
-            startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
-        else {
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//            if(currentUser.uid.equals(getString(R.string.admin_id)))
-//                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//            else
-//                startActivity(Intent(this@SplashActivity, ViewCarParkingActivity::class.java))
-        }
+        startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+//        val currentUser  = FirebaseAuth.getInstance().currentUser
+//        if(currentUser == null)
+//            startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
+//        else {
+//            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+////            if(currentUser.uid.equals(getString(R.string.admin_id)))
+////                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+////            else
+////                startActivity(Intent(this@SplashActivity, ViewCarParkingActivity::class.java))
+//        }
         finish()
 
 

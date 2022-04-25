@@ -3,6 +3,7 @@ package com.parking.project.actiivites
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
     var TAG: String? = null
     var progressDialog: ProgressDialog? = null
     lateinit var binding : ActivityLoginBinding
+    var passwrdvisibility : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -23,21 +25,34 @@ class LoginActivity : AppCompatActivity() {
         progressDialog= ProgressDialog(this);
         progressDialog!!.setMessage(getString(R.string.please_wait));
         mAuth = FirebaseAuth.getInstance();
-        binding.signupCall.setOnClickListener {
-            startActivity(Intent(this@LoginActivity,SignUpActiivty::class.java))
-            finish()
-        }
+
         binding.signinBtn.setOnClickListener {
             progressDialog!!.show()
-            loginCall()
+            if(!binding.email.text.toString().equals("") || !binding.password.text.toString().equals(""))
+                loginCall()
 
+        }
+
+        binding.visiblePasswrd.setOnClickListener {
+            if(passwrdvisibility){
+                passwrdvisibility=false
+                binding.visiblePasswrd.setImageResource(R.drawable.ic_baseline_visibility_off_24)
+                binding.password.setTransformationMethod(PasswordTransformationMethod())
+                binding.password.setSelection(binding.password.text.toString().length);
+            }else{
+                passwrdvisibility=true
+                binding.visiblePasswrd.setImageResource(R.drawable.ic_baseline_visibility_24)
+                binding.password.setTransformationMethod(null)
+                binding.password.setSelection(binding.password.text.toString().length);
+
+            }
         }
 
 
     }
 
     private fun loginCall() {
-        mAuth!!.signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString())
+        mAuth!!.signInWithEmailAndPassword(binding.email.text.toString().trim(), binding.password.text.toString().trim())
             .addOnCompleteListener(this@LoginActivity) { task ->
                 progressDialog!!.dismiss()
                 if (task.isSuccessful) {
